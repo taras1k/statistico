@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="http://yandex.st/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+<title></title>
+
+    </head>
+    <body>
+  
+        <div class="wrapper">
+        	<div id="header">        		
+        	   <form action = '#'>
+                <input type = 'text' name = 'url' />
+                <input type = 'submit' />
+               </form> 
+               % if params is not UNDEFINED:
+                    % if 'url' in params:
+                        <a href = '${params['url']}'>${params['url']}</a>
+                    % endif
+               % endif
+			</div>
+        </div>
+		Hello
+	<div class="footer">
+	</div>
+    </body>
+	
+</html>
