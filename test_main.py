@@ -1,10 +1,14 @@
-from paste.fixture import TestApp
-from nose.tools import *
-from main_app import app
+from attest import Tests
+import helper
+generate = Tests()
 
-class TestCode():
-	def test_index(self):
-		middleware = []
-		testApp = TestApp(app.wsgifunc(*middleware))
-		r = testApp.get('/h')
-		assert_equal(r.status, 200)
+@generate.test
+def gen():
+	for i in range(5,10):
+		str = helper._id_generator(i)
+		assert i == len(str)
+
+if __name__ == '__main__':
+	generate.run()
+
+
