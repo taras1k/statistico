@@ -23,7 +23,8 @@ def get_click_info(path):
 	data['count'] = click_data.count()
 	data['env'] = []
 	for click_el in click_data:
-	   data['env'].append(click_el['user_agent'])
+		if 'user_agent' in click_el:
+			data['env'].append(click_el['user_agent'])
 	return data
 
 	
