@@ -11,7 +11,26 @@ def parse_user_agent(input_string):
 
 def _id_generator(size=5, chars=string.ascii_letters + string.digits):
 	return ''.join(random.choice(chars) for x in range(size))
-	
+
+def _count_param(params, category, data):
+	if category in params:
+			name = params[category]['name']
+			if name not in data[category]:
+				data[category][name] = 1
+			else: 
+				data[category][name] += 1
+
+def count_param(params):
+	data = {}
+	data['os'] ={}
+	data['browser'] ={}
+	for param in params:
+		if 'user_agent' not in param:
+			continue
+		_count_param(param['user_agent'], 'os', data)
+		_count_param(param['user_agent'], 'browser', data)
+	return data
+
 
 def get_click_info(path):
 	click = Click()
@@ -21,10 +40,7 @@ def get_click_info(path):
 	if not click_data:
 		return data
 	data['count'] = click_data.count()
-	data['env'] = []
-	for click_el in click_data:
-		if 'user_agent' in click_el:
-			data['env'].append(click_el['user_agent'])
+	data['env'] = count_param(click_data)
 	return data
 
 	
