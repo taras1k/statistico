@@ -6,20 +6,38 @@
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Task');
-        data.addColumn('number', 'Hours per Day');
+        data.addColumn('string', 'Browser');
+        data.addColumn('number', 'Visit');
         data.addRows(${params['browsers']});
 
         var options = {
           width: 450, height: 300,
-          title: 'My Daily Activities'
+          title: 'Browsers'
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.PieChart(document.getElementById('browser_chart_div'));
         chart.draw(data, options);
       }
     </script>
+   <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Os');
+        data.addColumn('number', 'Visit');
+        data.addRows(${params['os']});
 
+        var options = {
+          width: 450, height: 300,
+          title: 'OS'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('os_chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
 </%block>
-${params['browsers']}
-<div id="chart_div"></div>
+<div id="browser_chart_div"></div>
+<div id="os_chart_div"></div>
+
