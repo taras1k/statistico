@@ -1,0 +1,14 @@
+<%inherit file="default.html"/>
+    <div class="wrapper">
+        <div id="header">           
+            <form action = '#'>
+                <input type = 'text' name = 'url' />
+                <input type = 'submit' />
+            </form> 
+            % if params is not UNDEFINED:
+                % if 'url' in params:
+                    <a href = '${params['url']}'>${params['url']}</a>
+                % endif
+            % endif
+        </div>
+    </div>

@@ -1,0 +1,25 @@
+<%inherit file="default.html"/>
+<%block name='scripts'>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>       
+   <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Task');
+        data.addColumn('number', 'Hours per Day');
+        data.addRows(${params['browsers']});
+
+        var options = {
+          width: 450, height: 300,
+          title: 'My Daily Activities'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
+</%block>
+${params['browsers']}
+<div id="chart_div"></div>
