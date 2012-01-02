@@ -29,7 +29,20 @@ class redirect:
 
 class statistic:
     def GET(self, path):
-        return helper.get_click_info(path)
+        data = {}
+        data['browsers'] = []
+        data['os'] = []
+        click_info = helper.get_click_info(path)
+        if 'env' in click_info:
+            if 'browser' in click_info['env']:
+                for key,value in click_info['env']['browser'].items():
+                    new_browser = [str(key), value]
+                    data['browsers'].append(new_browser)
+            if 'os' in click_info['env']:
+                for key,value in click_info['env']['os'].items():
+                    new_os = [str(key), value]
+                    data['os'].append(new_os)
+        return render.statistic(params = data)
 
 class hello:
     def GET(self):
@@ -38,7 +51,7 @@ class hello:
         if 'url' in params:
             url = params.url
             data['url'] = helper.short_it(url)
-        return render.default(params = data)
+        return render.main(params = data)
 
 if __name__ == "__main__":
     app.run()
