@@ -21,7 +21,8 @@ render = render_mako(
 class redirect:
     def GET(self, path):
         url_models = Url()
-        url_model = url_models.get_url_by_key('code', path)
+        query = {'code': path}
+        url_model = url_models.get_url_by_key(query)
         if url_model:
             helper.save_click(web.ctx.env, path)
             web.redirect(helper.format_url(url_model['url']))
@@ -32,16 +33,15 @@ class statistic:
         data = {}
         data['browsers'] = []
         data['os'] = []
+        data['clicks'] = []
         click_info = helper.get_click_info(path)
         if 'env' in click_info:
             if 'browser' in click_info['env']:
-                for key,value in click_info['env']['browser'].items():
-                    new_browser = [str(key), value]
-                    data['browsers'].append(new_browser)
+                helper.prpare_list(click_info['env']['browser'], data['browsers'])
             if 'os' in click_info['env']:
-                for key,value in click_info['env']['os'].items():
-                    new_os = [str(key), value]
-                    data['os'].append(new_os)
+                helper.prpare_list(click_info['env']['os'], data['os'])
+            if 'time' in click_info['env']:
+                helper.prpare_list(click_info['env']['time'], data['clicks'])    
         return render.statistic(params = data)
 
 class hello:

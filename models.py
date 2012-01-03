@@ -9,8 +9,8 @@ class Url(object):
     def get_Urls(self): 
         return self.urls.find()
 
-    def get_url_by_key(self, key_name, key_value):
-        return self.urls.find_one({key_name : key_value})
+    def get_url_by_key(self, query):
+        return self.urls.find_one(query)
 
     def save_url(self, url):
         self.urls.save(url)
@@ -25,6 +25,9 @@ class Click(object):
         self.clicks.save(params)
         return True
 
-    def get_clicks(self, query):
-        return self.clicks.find(query)
+    def get_clicks(self, query, sort_q = None):
+        if sort_q:
+            return self.clicks.find(query, sort = sort_q)
+        else: 
+            return self.clicks.find(query)
         
