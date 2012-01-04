@@ -32,13 +32,17 @@ class redirect:
 class statistic:
     def GET(self, path):
         data = {}
+        params = web.input()
+        from_date = params.get('from_date', None)
+        to_date = params.get('to_date', None)
+        if from_date:
+            from_date = helper.prepare_date(from_date)
+        if to_date:
+            to_date = helper.prepare_date(to_date)
         data['browsers'] = []
         data['os'] = []
         data['clicks'] = []
-        data['time'] = []
-        t = time.time()
-        click_info = helper.get_click_info(path)
-        t = time.time()
+        click_info = helper.get_click_info(path, f_date = from_date, t_date = to_date)
         data['count'] = click_info['count']
         if 'env' in click_info:
             if 'browser' in click_info['env']:
@@ -47,8 +51,6 @@ class statistic:
                 helper.prpare_list(click_info['env']['os'], data['os'])
             if 'time' in click_info['env']:
                 helper.prpare_list(click_info['env']['time'], data['clicks'])    
-        t = time.time() -t
-        data['time'].append(t)
         return render.statistic(params = data)
 
 class hello:

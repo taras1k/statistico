@@ -53,6 +53,9 @@ def __increase_param(data, param):
     else:
         data[param]= 1
 
+def prepare_date(in_date):
+    return time.mktime(time.strptime(in_date,"%m/%d/%Y"))
+
 
 def _count_param(params, category, data, period_f = None, period_p = None):
     if category in params:
@@ -77,10 +80,25 @@ def count_param(params):
     return data
 
 
-def get_click_info(path):
-    click = Click()
+def __get_param(param_name, data):
+    if param_name in data:
+        return data[param_name] 
+    else:
+        return None
+
+def get_click_info(path, **kwargs):
+    click = Click()   
     data = {}
     query = {'code': path}
+    from_date = __get_param('f_date',kwargs)
+    to_date = __get_param('t_date',kwargs)
+    if from_date and to_date:
+        query['time'] = {'$gte':from_date ,'$lte':to_date}
+        #query['$and'] = [{'time':{'$gte':from_date}},{'time':{'$lte':to_date}}]
+    elif from_date:
+        query['time'] = {'$gte':from_date}
+    elif to_date:
+        query['time'] = {'$lte':to_date}
     sort = [('time', pymongo.ASCENDING)] 
     click_data = click.get_clicks(query, sort_q = sort)
     if not click_data:

@@ -71,12 +71,13 @@
     </script>
 </%block>
 
-<p>${params['time']}</p>
+<p>${params['count']}</p>
+<form action = '#'>
+From Date: <input id="from_datepicker" type="text" name = "from_date">
+To Date: <input id="to_datepicker" type="text" name = "to_date">
+<input type = 'submit' />
+</form> 
 
-<div class="demo">
-
-<p>Date: <input id="from_datepicker" type="text"></p>
-<p>Date: <input id="to_datepicker" type="text"></p>
 
 </div>
 <div id="graph_chart_div"></div>
