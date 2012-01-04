@@ -4,7 +4,6 @@ import string
 import time
 import random
 import web
-import re
 import datetime 
 import pymongo
 
@@ -22,9 +21,7 @@ def round_time(time_value, period):
     return date_time
 
 def format_url(url):
-    r = re.compile(r'://')
-    res = r.match(url)
-    if res:
+    if '://' in url:
         return url
     return 'http://' + url
 
@@ -50,16 +47,21 @@ def __prepare_name(params, category):
     else:
         return ''
 
+def __increase_param(data, param):
+    if param in data:
+        data[param] += 1
+    else:
+        data[param]= 1
+
+
 def _count_param(params, category, data, period_f = None, period_p = None):
     if category in params:
         name = __prepare_name(params, category)
         if period_f:
             name = period_f(name, period_p)
-        if name not in data[category]:
-            data[category][name] = 1
-        else: 
-            data[category][name] += 1
-
+        __increase_param(data[category], name)        
+    else:
+        __increase_param(data[category], 'unknown')
 
 def count_param(params):
     data = {}
@@ -79,7 +81,7 @@ def get_click_info(path):
     click = Click()
     data = {}
     query = {'code': path}
-    sort = [('time', pymongo.DESCENDING)]
+    sort = [('time', pymongo.ASCENDING)] 
     click_data = click.get_clicks(query, sort_q = sort)
     if not click_data:
         return data
@@ -94,7 +96,8 @@ def short_it(url):
     code = _id_generator()
     size = 5
     tries = 0
-    while url_models.get_url_by_key('code', code):
+    query = {'code': code}
+    while url_models.get_url_by_key(query):
         code = _id_generator(size)
         tries += 1
         if tries > 100000:

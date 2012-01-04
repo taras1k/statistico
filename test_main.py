@@ -17,22 +17,21 @@ def gen():
 @code.test
 def chek():
     server_url = 'http://0.0.0.0:8080/'
-    url = helper.short_it('ya.ru')
-    r = requests.get(server_url+url)
-    assert r.status_code == 200     
+    url = helper.short_it('nic.to')
+    print url
+    r = requests.get(server_url+url, allow_redirects=False)
+    assert r.status_code == 301     
 
 
 @load.test
 def chek():
     server_url = 'http://0.0.0.0:8080/'
-    url = helper.short_it('ya.ru')
+    url = helper.short_it('http://www.google.com.ua/')
     for i in range(1000):
-        r = requests.get(server_url+url)
-        assert r.status_code == 200         
+        r = requests.get(server_url+url, allow_redirects=False)
+        assert r.status_code == 301         
 
 if __name__ == '__main__':
-    generate.run()
+    #generate.run()
     code.run()
     load.run()
-
-

@@ -1,7 +1,10 @@
 <%inherit file="default.html"/>
 <%block name='scripts'>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>       
-   <script type="text/javascript">
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>   
+    <link rel="stylesheet" href="http://yandex.st/jquery-ui/1.8.15/themes/redmond/jquery.ui.all.min.css">
+    <script src="http://yandex.st/jquery/1.7.1/jquery.js"></script>
+    <script src="http://yandex.st/jquery-ui/1.8.16/jquery-ui.js"></script>    
+    <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -56,7 +59,26 @@
         chart.draw(data, options);
       }
     </script>
+    <script>
+      $(function() {
+        $( "#from_datepicker" ).datepicker();
+      });
+    </script>
+    <script>
+      $(function() {
+        $( "#to_datepicker" ).datepicker();
+      });
+    </script>
 </%block>
+
+<p>${params['time']}</p>
+
+<div class="demo">
+
+<p>Date: <input id="from_datepicker" type="text"></p>
+<p>Date: <input id="to_datepicker" type="text"></p>
+
+</div>
 <div id="graph_chart_div"></div>
 <div id="browser_chart_div"></div>
 <div id="os_chart_div"></div>

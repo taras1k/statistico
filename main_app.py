@@ -2,6 +2,7 @@ import web
 import helper 
 from web.contrib.template import render_mako
 from models import Url, Click
+import time
 
 urls = (
 "/h", "hello",
@@ -34,7 +35,11 @@ class statistic:
         data['browsers'] = []
         data['os'] = []
         data['clicks'] = []
+        data['time'] = []
+        t = time.time()
         click_info = helper.get_click_info(path)
+        t = time.time()
+        data['count'] = click_info['count']
         if 'env' in click_info:
             if 'browser' in click_info['env']:
                 helper.prpare_list(click_info['env']['browser'], data['browsers'])
@@ -42,6 +47,8 @@ class statistic:
                 helper.prpare_list(click_info['env']['os'], data['os'])
             if 'time' in click_info['env']:
                 helper.prpare_list(click_info['env']['time'], data['clicks'])    
+        t = time.time() -t
+        data['time'].append(t)
         return render.statistic(params = data)
 
 class hello:
