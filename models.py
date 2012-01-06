@@ -1,6 +1,5 @@
 from settings import DB
 
-
 class Url(object):
 
     def __init__(self):
@@ -15,6 +14,8 @@ class Url(object):
     def save_url(self, url):
         self.urls.save(url)
         return True
+
+url = Url()
 
 class Click(object):
 
@@ -31,3 +32,4 @@ class Click(object):
         else: 
             return self.clicks.find(query)
         
+click = Click()

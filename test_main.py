@@ -1,6 +1,7 @@
 from attest import Tests
-import helper
+from controlers import shortener, click_info
 import requests
+import helper
 
 generate = Tests()
 code = Tests()
@@ -17,7 +18,7 @@ def gen():
 @code.test
 def chek():
     server_url = 'http://0.0.0.0:8080/'
-    url = helper.short_it('nic.to')
+    url = shortener.short_it('nic.to')
     print url
     r = requests.get(server_url+url, allow_redirects=False)
     assert r.status_code == 301     
@@ -26,7 +27,7 @@ def chek():
 @load.test
 def chek():
     server_url = 'http://0.0.0.0:8080/'
-    url = helper.short_it('http://www.google.com.ua/')
+    url = shortener.short_it('http://www.google.com.ua/')
     for i in range(1000):
         r = requests.get(server_url+url, allow_redirects=False)
         assert r.status_code == 301         

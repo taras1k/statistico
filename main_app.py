@@ -1,8 +1,7 @@
 import web
 import helper 
 from web.contrib.template import render_mako
-from models import Url, Click
-import time
+from controlers import shortener, click_info
 
 urls = (
 "/h", "hello",
@@ -21,12 +20,10 @@ render = render_mako(
 
 class redirect:
     def GET(self, path):
-        url_models = Url()
-        query = {'code': path}
-        url_model = url_models.get_url_by_key(query)
-        if url_model:
-            helper.save_click(web.ctx.env, path)
-            web.redirect(helper.format_url(url_model['url']))
+        url = shortener.get_url(path)
+        if url:
+            click_info.save_click(web.ctx.env, path)
+            web.redirect(shortener.format_url(url['url']))
         web.notfound 
 
 class statistic:
@@ -42,15 +39,15 @@ class statistic:
         data['browsers'] = []
         data['os'] = []
         data['clicks'] = []
-        click_info = helper.get_click_info(path, f_date = from_date, t_date = to_date)
-        data['count'] = click_info['count']
-        if 'env' in click_info:
-            if 'browser' in click_info['env']:
-                helper.prpare_list(click_info['env']['browser'], data['browsers'])
-            if 'os' in click_info['env']:
-                helper.prpare_list(click_info['env']['os'], data['os'])
-            if 'time' in click_info['env']:
-                helper.prpare_list(click_info['env']['time'], data['clicks'])    
+        clicks = click_info.get_click_info(path, f_date = from_date, t_date = to_date)
+        data['count'] = clicks['count']
+        if 'click_statistic' in clicks:
+            if 'browser' in clicks['click_statistic']:
+                helper.prpare_list(clicks['click_statistic']['browser'], data['browsers'])
+            if 'os' in clicks['click_statistic']:
+                helper.prpare_list(clicks['click_statistic']['os'], data['os'])
+            if 'time' in clicks['click_statistic']:
+                helper.prpare_list(clicks['click_statistic']['time'], data['clicks'])    
         return render.statistic(params = data)
 
 class hello:
@@ -59,7 +56,7 @@ class hello:
         data = {}
         if 'url' in params:
             url = params.url
-            data['url'] = helper.short_it(url)
+            data['url'] = shortener.short_it(url)
         return render.main(params = data)
 
 if __name__ == "__main__":
