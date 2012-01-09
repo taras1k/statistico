@@ -3,6 +3,7 @@ import string
 import time
 import random
 import datetime 
+from controlers import Menu
 
 def get_delta(date_time, period):
     delta = {}
@@ -34,3 +35,9 @@ def get_param(param_name, data):
     else:
         return None
 
+def main_menu():
+    menu = Menu()
+    menu.append_item('main','/')
+    menu.append_item('stat','/stat')
+    menu.append_item('about','/about')
+    return menu.get_menu()

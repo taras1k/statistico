@@ -31,7 +31,6 @@ class Shortener(object):
         query = {'code': code}
         return url.get_url_by_key(query)
 
-shortener = Shortener()
 
 class ClickInfo(object):
 
@@ -110,4 +109,35 @@ class ClickInfo(object):
         return_data['click_statistic'] = self.data
         return return_data
 
-click_info = ClickInfo()
+
+class Menu(object):
+
+    def __init__(self):
+        self.menu = []
+
+    def append_item(self,name, link):
+        item = {'name': name, 'link' : link}
+        self.menu.append(item)
+
+    def get_menu(self):
+        return self.menu
+
+class Links(object):
+
+    def __init__(self, server_name):
+        self.server_name = server_name
+        self.link_dict = {}
+        self.link_dict['url'] = self.server_name + ''
+        self.link_dict['statistic'] = self.server_name + 'stat/'
+        self.link_dict['qrcode'] = self.server_name + 'qrcode/'
+        self.links = []
+
+    def add_link(self, link, param = ''):
+        if link in self.link_dict:
+            new_link = {}
+            new_link['link'] = link
+            new_link['url'] = self.link_dict[link] + param
+            self.links.append(new_link)
+
+    def get_links(self):
+        return self.links

@@ -7,6 +7,15 @@
     <title></title>
 </head>
 <body>
+	<%block name='menu'>
+	% if params is not UNDEFINED:
+		%if 'menu' in params:
+			%for menu_item in params['menu']:
+				<a href=${menu_item['link']}>${menu_item['name']}</a>
+			%endfor
+		%endif
+	% endif
+	</%block>
     ${self.body()}    
     <div class="footer">
     </div>

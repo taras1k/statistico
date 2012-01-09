@@ -7,7 +7,13 @@
             </form> 
             % if params is not UNDEFINED:
                 % if 'url' in params:
-                    <a href = '${params['url']}'>${params['url']}</a>
+                   link: <a href = '${params['url']}'>${params['url']}</a>
+                % endif
+                % if 'statistic' in params:
+                    statistic: <a href = '${params['statistic']}'>${params['statistic']}</a>
+                % endif
+                % if 'qrcode' in params:
+                    <img src=${params['qrcode']} />
                 % endif
             % endif
         </div>
